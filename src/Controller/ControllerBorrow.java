@@ -214,21 +214,28 @@ public class ControllerBorrow {
         String idStudent;
         String dataBorrowing;
         String dataReturned;
+        String firsName;
+        String lastName;
+        String title;
 
         try {
             // try overwrite txt if something went wrong  will be have Exception
             BufferedWriter myWriter = new BufferedWriter(new FileWriter("src/library/Borrow_table.csv", false));
 
-            myWriter.write("idBook " + "," + " idStudent " + "," + "borrowedDate " + "," + "returnedDate ");
+            myWriter.write("idBook" + "," + "Title" +"," + " idStudent " + ","+ "First Name" + "," + "LastName"+"," +"borrowedDate " + "," + "returnedDate ");
             myWriter.newLine();
 
             for (int i = 0; i < listBorrowed.size(); i++) {
 
                 idBook = listBorrowed.get(i).getIdBook();
+                title= listBorrowed.get(i).getTitleBook();
                 idStudent = Integer.toString(listBorrowed.get(i).getIdStudent());
+                firsName =  listBorrowed.get(i).getStudentFirstName();
+                lastName =  listBorrowed.get(i).getStudentLastName(); 
                 dataBorrowing = listBorrowed.get(i).getDataBorrowing();
                 dataReturned = listBorrowed.get(i).getDataReturned();
-                myWriter.write(idBook + "," + idStudent + "," + dataBorrowing + "," + dataReturned);
+                myWriter.write(idBook + "," + title + "," + idStudent + "," +firsName+ "," + lastName +"," +dataBorrowing + "," + dataReturned);
+              
                 myWriter.newLine();
 
             }
@@ -276,6 +283,9 @@ public class ControllerBorrow {
         int idStudent;
         String dataBorrowing;
         String dataReturned;
+        String firsName;
+        String lastName;
+        String title;
 
         String path = "src/library/Borrow_table.csv"; //path of data It is.
 
@@ -286,17 +296,20 @@ public class ControllerBorrow {
 
         try {
 
-            // Start read the file books.The Loop will try get line by line still the next line will be NULL.
+            
             while (line != null) {
 
-                // Created Array of String   for get  each information from file CSV.
+                
                 String[] vetBorrow = line.split(",");
                 idBook = vetBorrow[0];
-                idStudent = Integer.parseInt(vetBorrow[1]);
-                dataBorrowing = vetBorrow[2];
-                dataReturned = vetBorrow[3];
-
-                Borrow BorrowObj = new Borrow(idBook, idStudent, dataBorrowing, dataReturned);
+                title = vetBorrow[1];
+                idStudent = Integer.parseInt(vetBorrow[2]);
+                firsName = vetBorrow[3];
+                lastName = vetBorrow[4];   
+                dataBorrowing = vetBorrow[5];
+                dataReturned = vetBorrow[6];
+         
+                Borrow BorrowObj = new Borrow(idBook, title, idStudent, firsName,lastName,dataBorrowing, dataReturned);
                 listBorrowed.add(BorrowObj);
                 line = br.readLine(); //read the next line of file csv.
             }
