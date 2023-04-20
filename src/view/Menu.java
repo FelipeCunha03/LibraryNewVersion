@@ -38,10 +38,13 @@ public class Menu {
         myCB.getBookObj();
         myCS.getStudentObj();
         myCB.generateAvailableBook();
-        myCAB.gererateAvailabilityBookFile();   
+        myCAB.gererateAvailabilityBookFile();  
         
+        myBW.createdBorrowedFile();
+    
         myBW.readFileBorrowBook();
-
+        
+       
         do{
 
             try{

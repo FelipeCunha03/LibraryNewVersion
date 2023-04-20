@@ -10,6 +10,7 @@ import Model.Borrow;
 import Model.Student;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -135,7 +136,6 @@ public class ControllerBorrow {
 
             System.out.println("\n***Confirmed! The student " + myStudent.getfNameStudent() + " "
                     + myStudent.getlNameStudent() + " is on the queue for the book " + myBook.getBookTitle() + "***\n");
-           
 
         } else {
             System.out.println("The student was not add on the queue, because it is full.");
@@ -209,7 +209,7 @@ public class ControllerBorrow {
 
     // storge the list borrred in  file txt.
     public void storageListBorrowedFile() {
-        
+
         String idBook;
         String idStudent;
         String dataBorrowing;
@@ -231,7 +231,6 @@ public class ControllerBorrow {
                 myWriter.write(idBook + "," + idStudent + "," + dataBorrowing + "," + dataReturned);
                 myWriter.newLine();
 
-          
             }
             myWriter.close();
 
@@ -243,16 +242,41 @@ public class ControllerBorrow {
     public void messageError(String objError) {
         System.out.println(objError + " was not found!");
     }
-    
-    
-    
-    public void readFileBorrowBook() throws FileNotFoundException, IOException{
-            
+
+    public void createdBorrowedFile() {
+
+        File file = new File("src/library/Borrow_table.csv");
+
+        if (file.exists() == false) {
+
+            try {
+                // try  to creat the txt and put number and  no number in there if something went wrong I have catch.
+                BufferedWriter myWriter = new BufferedWriter(new FileWriter("src/library/Borrow_table.csv"));
+                myWriter.write("idBook " + "," + " idStudent " + "," + "borrowedDate " + "," + "returnedDate ");
+
+                myWriter.close();
+
+            } catch (Exception e) { // if something went wrong when system try to  read txt treat Exception
+
+                System.out.println("Error acess file !!");
+
+            }
+            System.out.println("Arquivo criado!!");
+       
+    }  
+        else{
+            System.out.println("arquivo ja criado");
+        }
+
+    }
+
+    public void readFileBorrowBook() throws FileNotFoundException, IOException {
+
         String idBook;
         int idStudent;
         String dataBorrowing;
         String dataReturned;
-         
+
         String path = "src/library/Borrow_table.csv"; //path of data It is.
 
         BufferedReader br = new BufferedReader(new FileReader(path));
@@ -260,10 +284,10 @@ public class ControllerBorrow {
 
         String line = br.readLine();
 
-        try{
-   
+        try {
+
             // Start read the file books.The Loop will try get line by line still the next line will be NULL.
-            while(line != null){
+            while (line != null) {
 
                 // Created Array of String   for get  each information from file CSV.
                 String[] vetBorrow = line.split(",");
@@ -271,18 +295,16 @@ public class ControllerBorrow {
                 idStudent = Integer.parseInt(vetBorrow[1]);
                 dataBorrowing = vetBorrow[2];
                 dataReturned = vetBorrow[3];
-               
-                Borrow BorrowObj = new Borrow(idBook,idStudent,dataBorrowing,dataReturned);
+
+                Borrow BorrowObj = new Borrow(idBook, idStudent, dataBorrowing, dataReturned);
                 listBorrowed.add(BorrowObj);
                 line = br.readLine(); //read the next line of file csv.
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Error open file\nMessage error: " + e.getMessage());
         }
     }
     
-
-        
     
 
     public void queueStudentByBook() {
