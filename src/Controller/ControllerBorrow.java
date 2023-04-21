@@ -160,7 +160,7 @@ public class ControllerBorrow {
                     if (ControllerAvailabilityBook.listAvailableBook.get(i).isIsAvailable() == false) { //check if the book is borrowed
 
                         ControllerAvailabilityBook.listAvailableBook.get(i).setIsAvailable(true); //set the book to available
-                        myCAB.getAvailabilityBookFile(); //call the method to create the file
+                        myCAB.overWriteAvailabilityFile();
 
                         localTime = LocalDateTime.now();
                         DateTimeFormatter dataFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -363,5 +363,7 @@ public class ControllerBorrow {
         }
 
     }
+    
+    
 
 }

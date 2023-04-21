@@ -20,8 +20,9 @@ import java.util.Scanner;
  * @author rapha
  */
 public class Menu {
-
-    public static void main(String[] args) throws IOException {
+    
+    public static  void menu() throws IOException{
+                        
 
         Scanner s = new Scanner(System.in);
         ControllerBook myCB = new ControllerBook();
@@ -43,6 +44,7 @@ public class Menu {
         
         System.out.println(ControllerBorrow.listBorrowed);
         
+          
        
         do{
 
@@ -175,5 +177,7 @@ public class Menu {
                 s.nextLine();
             }
         }while (option != 16);
+        
+    
     }
 }
