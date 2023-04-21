@@ -13,10 +13,14 @@ public class AvailabilityBook {
     private String idBook;
     private boolean isAvailable ;
 
-    public AvailabilityBook(String idBook) {
+    public AvailabilityBook(String idBook, boolean isAvailable) {
         this.idBook = idBook;
-        this.isAvailable = true;
+        this.isAvailable = isAvailable;
     }
+
+   
+
+   
 
     public String getIdBook() {
         return idBook;
@@ -25,6 +29,7 @@ public class AvailabilityBook {
     public void setIdBook(String idBook) {
         this.idBook = idBook;
     }
+
 
     public boolean isIsAvailable() {
         return isAvailable;
@@ -36,7 +41,11 @@ public class AvailabilityBook {
 
     @Override
     public String toString() {
-        return  "idBook, isAvaiable\n"
-                + idBook + "," + isAvailable + "\n";
-    }    
+        return "Id Book: " + idBook +
+                " Availability: " + isAvailable + "\n";
+    }
+
+    
+
+      
 }

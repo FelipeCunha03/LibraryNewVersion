@@ -8,6 +8,7 @@ import static Controller.ControllerStudent.listStudent;
 import Model.AvailabilityBook;
 import Model.Book;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -154,21 +155,9 @@ public class ControllerBook {
         System.out.println(listBook);
     }
 
-    static List<AvailabilityBook> listAvailableBook = new ArrayList();
+   
 
-    public List<AvailabilityBook> generateAvailableBook() {
-
-        String idbook;
-
-        for (int i = 0; i < listBook.size(); i++) {
-
-            idbook = listBook.get(i).getIdBook();
-
-            AvailabilityBook myAvailable = new AvailabilityBook(idbook);
-            listAvailableBook.add(myAvailable);
-        }
-        return listAvailableBook;
-    }
+  
 }
 
   

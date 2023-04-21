@@ -38,12 +38,13 @@ public class ControllerBorrow {
     Book myBook;
     ControllerBook myCB = new ControllerBook();
     ControllerStudent myCS = new ControllerStudent();
+    ControllerAvailabilityBook myCAB = new ControllerAvailabilityBook();
     LocalDateTime localTime;
     String dataReturned, dataBorrowed;
     Map<Book, CustomizedQueue<Integer>> myMap = new HashMap<>();
     CustomizedQueue<Integer> myQueue;
 
-    public Borrow borrowBook() {
+    public Borrow borrowBook() throws IOException {
 
         myQueue = new CustomizedQueue(100);
 
@@ -61,11 +62,11 @@ public class ControllerBorrow {
             return null;
         }
 
-        for (int i = 0; i < ControllerBook.listAvailableBook.size(); i++) {
+        for (int i = 0; i < ControllerAvailabilityBook.listAvailableBook.size(); i++) {
 
             //check if the book is available to be borrowed
-            if (ControllerBook.listAvailableBook.get(i).getIdBook().equals(myBook.getIdBook())
-                    && ControllerBook.listAvailableBook.get(i).isIsAvailable() == true) {
+            if (ControllerAvailabilityBook.listAvailableBook.get(i).getIdBook().equals(myBook.getIdBook())
+                    && ControllerAvailabilityBook.listAvailableBook.get(i).isIsAvailable() == true) {
 
                 if (myMap.get(myBook) != null) { //if the book is available, check if the map is not empty 
 
@@ -85,10 +86,7 @@ public class ControllerBorrow {
                         }
                     }
                 }
-                ControllerBook.listAvailableBook.get(i).setIsAvailable(false); //set false when the book is borrowed
-
-                ControllerAvailabilityBook myCAB = new ControllerAvailabilityBook();
-                myCAB.gererateAvailabilityBookFile(); // call the methodo that overwrite the file AvailabilityBookFile that show the status of book.
+                ControllerAvailabilityBook.listAvailableBook.get(i).setIsAvailable(false); //set false when the book is borrowed
 
                 localTime = LocalDateTime.now();
                 DateTimeFormatter dataFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -105,6 +103,10 @@ public class ControllerBorrow {
 
                 listBorrowed.add(myBorred);
                 storageListBorrowedFile();
+                
+                String idBook = myBook.getIdBook();
+                myCAB.overWriteAvailabilityFile();
+                
 
                 Borrow myBorredByStudent = new Borrow(myStudent.getIdStudent(), myBook);
                 ListBookByStudent.add(myBorredByStudent);
@@ -142,7 +144,7 @@ public class ControllerBorrow {
         }
     }
 
-    public void returnBook() {
+    public void returnBook() throws IOException {
 
         myBook = myCB.searchBookByTitle(); //ask to the user which book he wants to return
         ControllerAvailabilityBook myCAB = new ControllerAvailabilityBook();
@@ -151,14 +153,14 @@ public class ControllerBorrow {
             messageError("Book");
         } else {
 
-            for (int i = 0; i < ControllerBook.listAvailableBook.size(); i++) {
+            for (int i = 0; i < ControllerAvailabilityBook.listAvailableBook.size(); i++) {
 
-                if (ControllerBook.listAvailableBook.get(i).getIdBook().equals(myBook.getIdBook())) {
+                if (ControllerAvailabilityBook.listAvailableBook.get(i).getIdBook().equals(myBook.getIdBook())) {
 
-                    if (ControllerBook.listAvailableBook.get(i).isIsAvailable() == false) { //check if the book is borrowed
+                    if (ControllerAvailabilityBook.listAvailableBook.get(i).isIsAvailable() == false) { //check if the book is borrowed
 
-                        ControllerBook.listAvailableBook.get(i).setIsAvailable(true); //set the book to available
-                        myCAB.gererateAvailabilityBookFile(); //call the method to create the file
+                        ControllerAvailabilityBook.listAvailableBook.get(i).setIsAvailable(true); //set the book to available
+                        myCAB.getAvailabilityBookFile(); //call the method to create the file
 
                         localTime = LocalDateTime.now();
                         DateTimeFormatter dataFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -350,10 +352,10 @@ public class ControllerBorrow {
     public void listBookAreBorred() {
 
         System.out.println("List of books are borrowed");
-        for (int i = 0; i < ControllerBook.listAvailableBook.size(); i++) {
+        for (int i = 0; i < ControllerAvailabilityBook.listAvailableBook.size(); i++) {
 
-            if (ControllerBook.listAvailableBook.get(i).getIdBook() == ControllerBook.listBook.get(i).getIdBook()
-                    && ControllerBook.listAvailableBook.get(i).isIsAvailable() == false) {
+            if (ControllerAvailabilityBook.listAvailableBook.get(i).getIdBook() == ControllerBook.listBook.get(i).getIdBook()
+                    && ControllerAvailabilityBook.listAvailableBook.get(i).isIsAvailable() == false) {
 
                 System.out.println(ControllerBook.listBook.get(i));
             }
